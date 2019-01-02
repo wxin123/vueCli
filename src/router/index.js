@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Index from '@/components/Index'
-import Main from '@/components/Main'
+import PrivilegeList from '@/components/PrivilegeList'
+import PrivilegeEdit from '@/components/PrivilegeEdit'
+import PrivilegeAdd from '@/components/PrivilegeAdd'
 
 Vue.use(Router)
 
@@ -15,14 +16,19 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/index',
-      name: 'Index',
-      component: Index
+      path: '/privilege',
+      name: 'PrivilegeList',
+      component: PrivilegeList
     },
     {
-      path: '/main',
-      name: 'Main',
-      component: Main
+      path: '/privilege/edit/:id',
+      name: 'PrivilegeEdit',
+      component: PrivilegeEdit
+    },
+    {
+      path: '/privilege/add',
+      name: 'PrivilegeAdd',
+      component: PrivilegeAdd
     }
   ]
 })

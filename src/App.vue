@@ -6,14 +6,13 @@
     <div class="body">
       <div class="left">
         <ul class="menu">
-          <li><a href="">权限管理</a></li>
+          <li><router-link to="/privilege">权限管理</router-link></li>
         </ul>
       </div>
       <div class="right">
-        <p>11111111111111111我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页我是主页</p>
+        <router-view/>
       </div>
     </div>
-    <router-view/>
   </div>
 </template>
 
