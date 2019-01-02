@@ -7,6 +7,7 @@
       <div class="left">
         <ul class="menu">
           <li><router-link to="/privilege">权限管理</router-link></li>
+          <li><router-link to="/role">角色管理</router-link></li>
         </ul>
       </div>
       <div class="right">
