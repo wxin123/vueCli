@@ -27,7 +27,8 @@ export default {
       form: {
         name: '',
         flag: '',
-        description: ''
+        description: '',
+        privilege: []
       },
       rules: {
         name: [
@@ -59,7 +60,8 @@ export default {
             params: {
               name: form.name,
               level: form.level,
-              description: form.description
+              description: form.description,
+              privilege: form.privilege
             }
           }).then(function (response) {
             if (response.data.status === 200) {

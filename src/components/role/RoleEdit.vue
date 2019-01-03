@@ -10,6 +10,12 @@
       <el-form-item label="描述" prop="description">
         <el-input v-model="form.description"></el-input>
       </el-form-item>
+      <el-checkbox-group v-model="form.privilege">
+        <el-checkbox v-for="item in form.privilege" :label="item.name" :key="item.id"></el-checkbox>
+      </el-checkbox-group>
+      <!--<div v-for="item in form.privilege">-->
+        <!--{{item.id}}{{item.flag}}{{item.name}}-->
+      <!--</div>-->
       <el-form-item>
         <el-button type="primary" @click="save">保存</el-button>
       </el-form-item>
@@ -26,7 +32,9 @@ export default {
       form: {
         name: '',
         level: '',
-        description: ''
+        description: '',
+        privilege: [],
+        pri: []
       },
       rules: {
         name: [
@@ -56,6 +64,7 @@ export default {
           _this.form.name = vo.name
           _this.form.level = vo.level
           _this.form.description = vo.description
+          _this.form.privilege = vo.privilege
         }
       })
     })
@@ -64,6 +73,9 @@ export default {
     save: function () {
       var _this = this
       var id = _this.$route.params.id
+      console.log(_this.pri)
+      console.log(_this.privilege)
+      return;
       axios.post('/role/edit/ ' + id, {
         params: {
           name: _this.form.name,
