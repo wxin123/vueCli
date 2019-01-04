@@ -5,7 +5,10 @@
         <el-input v-model="form.name"></el-input>
       </el-form-item>
       <el-form-item label="等级" prop="level">
-        <el-input v-model="form.level"></el-input>
+        <el-select v-model="form.level" style="width: 100%">
+          <el-option value="">请选择</el-option>
+          <el-option v-for="item in levelList" :key="item.val" :label="item.key" :value="item.val"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="描述" prop="description">
         <el-input v-model="form.description"></el-input>
@@ -24,11 +27,11 @@ export default {
   name: 'role-add',
   data () {
     return {
+      levelList: [],
       form: {
         name: '',
         flag: '',
-        description: '',
-        privilege: []
+        description: ''
       },
       rules: {
         name: [
@@ -36,8 +39,7 @@ export default {
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         level: [
-          { required: true, message: '请输入等级', trigger: 'blur' },
-          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+          { required: true, message: '请选择等级', trigger: 'blur' }
         ],
         description: [
           { required: true, message: '请输入描述', trigger: 'blur' },
@@ -47,7 +49,11 @@ export default {
     }
   },
   mounted: function () {
-    this.$nextTick(function () {
+    let _this = this
+    _this.$nextTick(function () {
+      axios.get('/role/level').then(function (response) {
+        _this.levelList = response.data.list
+      })
     })
   },
   methods: {
@@ -60,8 +66,7 @@ export default {
             params: {
               name: form.name,
               level: form.level,
-              description: form.description,
-              privilege: form.privilege
+              description: form.description
             }
           }).then(function (response) {
             if (response.data.status === 200) {
