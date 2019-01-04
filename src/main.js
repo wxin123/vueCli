@@ -16,3 +16,14 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+router.beforeEach((to, from, next) => {
+  console.log('global beforeHook')
+  // console.log(to)
+  // console.log(from)
+  next()
+})
+router.afterEach((to, from) => {
+  console.log('global afterHook')
+  // console.log(to)
+  // console.log(from)
+})

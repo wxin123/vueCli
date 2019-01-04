@@ -18,7 +18,10 @@
 </template>
 
 <script>import axios from 'axios'
+
 axios.defaults.baseURL = 'http://127.0.0.1:8050'
+let that = null
+let id = null
 export default {
   name: 'privilege-edit',
   data () {
@@ -30,45 +33,43 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入名称', trigger: 'blur' },
-          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+          {required: true, message: '请输入名称', trigger: 'blur'},
+          {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
         ],
         flag: [
-          { required: true, message: '请输入标识', trigger: 'blur' },
-          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+          {required: true, message: '请输入标识', trigger: 'blur'},
+          {min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
         ],
         description: [
-          { required: true, message: '请输入描述', trigger: 'blur' },
-          { min: 1, max: 200, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+          {required: true, message: '请输入描述', trigger: 'blur'},
+          {min: 1, max: 200, message: '长度在 1 到 20 个字符', trigger: 'blur'}
         ]
       }
     }
   },
-  mounted: function () {
-    this.$nextTick(function () {
-      let _this = this
-      let id = this.$route.params.id
+  mounted () {
+    that = this
+    id = that.$route.params.id
+    that.$nextTick(function () {
       axios.get('/privilege/info/' + id).then(function (response) {
         var rst = response.data
         if (rst.status === 200) {
           var vo = rst.data
-          _this.form.id = vo.id
-          _this.form.name = vo.name
-          _this.form.flag = vo.flag
-          _this.form.description = vo.description
+          that.form.id = vo.id
+          that.form.name = vo.name
+          that.form.flag = vo.flag
+          that.form.description = vo.description
         }
       })
     })
   },
   methods: {
-    save: function () {
-      var _this = this
-      var id = _this.$route.params.id
+    save () {
       axios.post('/privilege/edit/ ' + id, {
         params: {
-          name: _this.form.name,
-          flag: _this.form.flag,
-          description: _this.form.description
+          name: that.form.name,
+          flag: that.form.flag,
+          description: that.form.description
         }
       }).then(function (response) {
         if (response.data.status === 200) {
@@ -79,7 +80,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
   .box-form{background: #fff;padding: 10px}
 </style>

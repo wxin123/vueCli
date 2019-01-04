@@ -33,6 +33,8 @@
 import axios from 'axios'
 import async from 'async'
 axios.defaults.baseURL = 'http://127.0.0.1:8050'
+let that = null
+let id = null
 export default {
   name: 'role-edit',
   data () {
@@ -60,12 +62,12 @@ export default {
       }
     }
   },
-  mounted: function () {
-    this.$nextTick(function () {
-      let _this = this
-      let id = this.$route.params.id
+  mounted () {
+    that = this
+    id = that.$route.params.id
+    that.$nextTick(() => {
       axios.get('/role/level').then(function (response) {
-        _this.levelList = response.data.list
+        that.levelList = response.data.list
       })
       async.series([
         function (callback) {
@@ -73,10 +75,10 @@ export default {
             var rst = response.data
             if (rst.status === 200) {
               var vo = rst.data
-              _this.form.id = vo.id
-              _this.form.name = vo.name
-              _this.form.level = vo.level
-              _this.form.description = vo.description
+              that.form.id = vo.id
+              that.form.name = vo.name
+              that.form.level = vo.level
+              that.form.description = vo.description
               callback(null, vo.privilege)
             }
           })
@@ -93,23 +95,19 @@ export default {
         var all = rst[1]
         all.forEach(function (val) {
           if (checked.indexOf(val.id) > -1) {
-            console.log(1)
             val.checked = true
           } else {
             val.checked = false
           }
         })
-        _this.privilegeList = all
+        that.privilegeList = all
       })
     })
   },
   methods: {
-    save: function () {
-      var _this = this
-      var id = _this.$route.params.id
-      console.log(_this.form.level)
-      let form = _this.form
-      this.$refs['form'].validate((valid) => {
+    save () {
+      let form = that.form
+      that.$refs['form'].validate((valid) => {
         if (valid) {
           axios.post('/role/edit/ ' + id, {
             params: {

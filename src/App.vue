@@ -19,7 +19,19 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  beforeRouteUpdate (to, from, next) {
+    console.log(to)
+    console.log(from)
+    console.log(next)
+  },
+  watch: {
+    '$route' (to, from) {
+      // console.log(to)
+      // console.log(from)
+      // 对路由变化作出响应...
+    }
+  }
 }
 </script>
 

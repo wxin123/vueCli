@@ -20,6 +20,7 @@
 <script>
 import axios from 'axios'
 axios.defaults.baseURL = 'http://127.0.0.1:8050'
+let that = null
 export default {
   name: 'privilege-add',
   data () {
@@ -45,14 +46,13 @@ export default {
       }
     }
   },
-  mounted: function () {
-    this.$nextTick(function () {
-    })
+  mounted () {
+    that = this
+    that.$nextTick(() => {})
   },
   methods: {
-    save: function () {
-      let _this = this
-      let form = _this.form
+    save () {
+      let form = that.form
       this.$refs['form'].validate((valid) => {
         if (valid) {
           axios.post('/privilege/add', {
@@ -65,16 +65,16 @@ export default {
             if (response.data.status === 200) {
               location.href = '/privilege'
             } else {
-              _this.$message({
+              that.$message({
                 message: response.data.message,
                 type: 'error'
               })
             }
           })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     }
   }
 }

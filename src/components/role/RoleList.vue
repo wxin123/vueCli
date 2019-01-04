@@ -45,10 +45,9 @@
 
 <script>
 import axios from 'axios'
-// import ElSelect from 'element-ui/packages/select/src/select'
 axios.defaults.baseURL = 'http://127.0.0.1:8050'
+let that = null
 export default {
-  // components: {ElSelect},
   name: 'role-list',
   data () {
     return {
@@ -61,36 +60,35 @@ export default {
     }
   },
   methods: {
-    privateGetList: function (_this, page) {
+    privateGetList (page) {
       axios.get('/role/page', {
         params: {
           page: page,
-          search: _this.search,
-          level: _this.level
+          search: that.search,
+          level: that.level
         }
       }).then(function (response) {
         let rst = response.data
         if (rst.status === 200) {
-          _this.list = rst.list
-          _this.count = rst.count
+          that.list = rst.list
+          that.count = rst.count
         }
       }).catch(function (error) {
         console.log(error)
       })
     },
-    query: function () {
-      this.$options.methods.privateGetList(this, 1)
+    query () {
+      that.$options.methods.privateGetList(1)
     },
-    del: function (id) {
-      var _this = this
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+    del (id) {
+      that.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         axios.post('/role/del/' + id).then(function (response) {
           if (response.data.status === 200) {
-            _this.$message({
+            that.$message({
               type: 'success',
               duration: 1000,
               message: '删除成功!'
@@ -98,25 +96,23 @@ export default {
           }
         })
       }).catch(() => {
-        this.$message({
+        that.$message({
           type: 'info',
           duration: 1000,
           message: '已取消删除'
         })
       })
-
-      // console.log(id)
     },
-    handleChangeCurrent: function (curr) {
-      this.$options.methods.privateGetList(this, curr)
+    handleChangeCurrent (curr) {
+      that.$options.methods.privateGetList(curr)
     }
   },
-  mounted: function () {
-    let _this = this
-    this.$nextTick(function () {
-      _this.$options.methods.privateGetList(_this, 1)
+  mounted () {
+    that = this
+    that.$nextTick(function () {
+      that.$options.methods.privateGetList(1)
       axios.get('/role/level').then(function (response) {
-        _this.levelList = response.data.list
+        that.levelList = response.data.list
       })
     })
   }
